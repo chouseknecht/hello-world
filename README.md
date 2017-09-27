@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/ansible/hello-world.svg)](https://travis-ci.org/ansible/hello-world)
+[![Build Status](https://travis-ci.org/chouseknecht/hello-world.svg)](https://travis-ci.org/chouseknecht/hello-world)
 
 # Hello World
 

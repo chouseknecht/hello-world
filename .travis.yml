@@ -1,17 +1,13 @@
 language: python
 dist: trusty
 sudo: required
-services:
-- docker
-
-before_install:
-  - echo $DOCKER_HOST
+before
+  - pip install ansible-tower-cli
+  - pip install ansible
 
 script:
-  - pip install ansible-container[docker]
-  - pip install ansible
-  - ansible-container --debug build
-  - ansible-container --debug run
-  - docker images
-  - docker ps -a
-  - ansible-playbook -vvv run-tests.yml
+  - ansible-playbook run-tests.yml  
+  - tower-cli config host ${TOWER_HOST} 
+  - tower-cli config username ${TOWER_USER}
+  - tower-cli config password ${TOWER_PASSWORD}
+  - tower-cli job launch --job-template=${TOWER_TEMPLATE} --extra-vars="instance_tag: house001"
