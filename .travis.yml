@@ -1,13 +1,12 @@
 language: python
 dist: trusty
 sudo: required
-before:
-  - pip install ansible-tower-cli
-  - pip install ansible
 
 script:
-  - ansible-playbook run-tests.yml  
-  - tower-cli config host ${TOWER_HOST} 
+  - pip install ansible-tower-cli
+  - pip install ansible
+  - ansible-playbook run-tests.yml
+  - tower-cli config host ${TOWER_HOST}
   - tower-cli config username ${TOWER_USER}
   - tower-cli config password ${TOWER_PASSWORD}
   - tower-cli job launch --job-template=${TOWER_TEMPLATE} --extra-vars="instance_tag: house001"
