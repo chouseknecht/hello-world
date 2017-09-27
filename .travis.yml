@@ -15,4 +15,4 @@ script:
   - tower-cli config host "http://${TOWER_HOST}"
   - tower-cli config username ${TOWER_USER}
   - tower-cli config password ${TOWER_PASSWORD}
-  - tower-cli job launch -vvv --insecure --job-template=${TOWER_TEMPLATE} --extra-vars="instance_tag\: house001"
+  - "tower-cli job launch -vvv --insecure --job-template=${TOWER_TEMPLATE} --extra-vars='instance_tag\: house001'"
