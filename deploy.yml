@@ -18,6 +18,14 @@
       args:
         chdir: '{{ deployment_path }}' 
 
+    - name: Remove existing containers
+      command: docker -rm --force $(docker ps -qa)
+      ignore_errors: yes
+
+    - name: Remove existing images
+      command: docker rmi --force $(docker images -qa)
+      ignore_errors: yes
+
     - name: Build the container
       command: ansible-container --debug build
       args:
