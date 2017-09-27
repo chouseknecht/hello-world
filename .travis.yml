@@ -1,7 +1,7 @@
 language: python
 dist: trusty
 sudo: required
-before
+before:
   - pip install ansible-tower-cli
   - pip install ansible
 
