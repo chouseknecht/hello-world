@@ -2,7 +2,7 @@
 # Deploys hello-world to a target host.
 ---
 - name: Deploy hello-world to a remote host
-  hosts: tag_awx_dev_True
+  hosts: "tag_awx_user_{{ instance_tag }}"
   gather_facts: no
   remote_user: centos
   vars:
