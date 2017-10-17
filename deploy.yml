@@ -12,18 +12,22 @@
       file:
         path: '{{ deployment_path }}'
         state: directory
+      when: ec2_state == 'running'
 
     - name: Init the project
       command: ansible-container init ansible.hello-world --force
       args:
         chdir: '{{ deployment_path }}' 
+      when: ec2_state == 'running'
 
     - name: Remove existing containers
       command: docker -rm --force $(docker ps -qa)
       ignore_errors: yes
+      when: ec2_state == 'running'
 
     - name: Remove existing images
       command: docker rmi --force $(docker images -qa)
+      when: ec2_state == 'running'
       ignore_errors: yes
 
     - name: Build the container
@@ -31,16 +35,18 @@
       args:
         chdir: '{{ deployment_path }}'
       register: output
+      when: ec2_state == 'running'
       ignore_errors: yes
 
     - name: Show output if failed
       debug: var=output
-      when: output.rc != 0   
+      when: output.rc != 0 and ec2_state == 'running'
 
     - name: Build rc should be 0
       assert:
         that:
         - output.rc == 0
+      when: ec2_state == 'running'
 
     - name: Launch
       command: ansible-container --debug run
@@ -48,15 +54,17 @@
         chdir: '{{ deployment_path }}'
       register: output
       ignore_errors: yes
+      when: ec2_state == 'running'
 
     - name: Show output if failed
       debug: var=output
-      when: output.rc != 0   
+      when: output.rc != 0 and ec2_state == 'running'
 
     - name: Run rc should be 0
       assert:
         that:
         - output.rc == 0
+      when: ec2_state == 'running'
 
 - name: Run tests
   hosts: tag_awx_dev_True
@@ -69,20 +77,24 @@
       tempfile:
         state: directory
         suffix: test
+      when: ec2_state == 'running'
       register: tempdir
 
     - name: Get the index
       get_url:
         url: "http://{{ DOCKER_HOST }}:4000/"
         dest: "{{ tempdir.path }}/url.txt"
+      when: ec2_state == 'running'
       register: result
 
     - name: Make sure everything is good
       assert:
         that:
           - result.status_code == 200
+      when: ec2_state == 'running'
 
     - name: Remove the tempdir
       file:
         path: "{{ tempdir.path }}"
         state: absent
+      when: ec2_state == 'running'
