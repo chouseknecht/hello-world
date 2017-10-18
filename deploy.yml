@@ -6,17 +6,17 @@
   gather_facts: no
   remote_user: centos
   vars:
-    deployment_path: /home/centos/hello 
+    deployment_path: /home/centos/hello-world 
   tasks: 
-    - name: Create a project directory 
+    - name: Remove existing project directory 
       file:
         path: '{{ deployment_path }}'
-        state: directory
+        state: absent 
 
-    - name: Init the project
-      command: ansible-container init git+https://github.com/chouseknecht/hello-world.git --force
-      args:
-        chdir: '{{ deployment_path }}' 
+    - name: Clone the project 
+      git:
+        repo: 'https://github.com/chouseknecht/hello-world.git'
+        dest: '{{ deployment_path }}'
 
     - name: Remove existing containers
       shell: docker rm --force $(docker ps -qa)
