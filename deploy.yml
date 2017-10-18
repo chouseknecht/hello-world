@@ -14,7 +14,7 @@
         state: directory
 
     - name: Init the project
-      command: ansible-container init ansible.hello-world --force
+      command: ansible-container init git+https://github.com/chouseknecht/hello-world.git --force
       args:
         chdir: '{{ deployment_path }}' 
 
