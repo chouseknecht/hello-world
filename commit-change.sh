@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# launch-job.sh
+# commit-change.sh
 #
 set -x
 
