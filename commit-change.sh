@@ -4,6 +4,10 @@
 #
 set -x
 
+git add . --all 
+
+git commit -S
+
 tower-cli config host "http://${TOWER_HOST}"
 tower-cli config username ${TOWER_USER}
 tower-cli config password ${TOWER_PASSWORD}
