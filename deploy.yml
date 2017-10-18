@@ -1,17 +1,8 @@
 # deploy.yml
 # Deploys hello-world to a target host.
 ---
-- name: Group hosts by state
-  hosts: "tag_awx_user_{{ instance_tag }}"
-  gather_facts: no
-  remote_user: centos
-  tasks:
-    - name: Create groups 
-      group_by:
-        key: "state_{{ ec2_state }}" 
-
 - name: Deploy hello-world to a remote host
-  hosts: state_running 
+  hosts: "tag_awx_user_{{ instance_tag }}"
   gather_facts: no
   remote_user: centos
   vars:
@@ -68,7 +59,7 @@
         - output.rc == 0
 
 - name: Run tests
-  hosts: state_running
+  hosts: "tag_awx_user_{{ instance_tag }}"
   vars: 
     DOCKER_HOST: 127.0.0.1
   gather_facts: no
@@ -78,24 +69,21 @@
       tempfile:
         state: directory
         suffix: test
-      when: ec2_state == 'running'
       register: tempdir
 
     - name: Get the index
       get_url:
         url: "http://{{ DOCKER_HOST }}:4000/"
         dest: "{{ tempdir.path }}/url.txt"
-      when: ec2_state == 'running'
       register: result
 
     - name: Make sure everything is good
       assert:
         that:
           - result.status_code == 200
-      when: ec2_state == 'running'
 
     - name: Remove the tempdir
       file:
         path: "{{ tempdir.path }}"
         state: absent
-      when: ec2_state == 'running'
+
