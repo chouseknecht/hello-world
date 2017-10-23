@@ -7,6 +7,7 @@ set -x
 git add . --all 
 
 git commit -S -m="Hello AWX" 
+git push 
 
 tower-cli workflow_job launch \
   --workflow-job-template="Dev Deployment" \
