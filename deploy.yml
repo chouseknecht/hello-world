@@ -10,7 +10,7 @@
   tasks: 
 
     - name: Show number of instances created
-      debug: msg: "Created instances: {{ instances_created }}"
+      debug: msg="Created {{ instances_created }} instances"
 
     - name: Remove existing project directory 
       file:
