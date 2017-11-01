@@ -8,6 +8,10 @@
   vars:
     deployment_path: /home/centos/hello-world 
   tasks: 
+
+    - name: Show number of instances created
+      debug: msg: "Created instances: {{ instances_created }}"
+
     - name: Remove existing project directory 
       file:
         path: '{{ deployment_path }}'
