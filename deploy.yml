@@ -3,7 +3,7 @@
 ---
 - name: Deploy hello-world to a remote host
   hosts: "tag_awx_user_{{ instance_tag }}"
-  gather_facts: no
+  gather_facts: yes 
   remote_user: centos
   vars:
     deployment_path: /home/centos/hello-world 
@@ -11,6 +11,7 @@
 
     - name: Show number of instances created
       debug: msg="Created {{ instances_created }} instances"
+      when: instances_created is defined
 
     - name: Remove existing project directory 
       file:
