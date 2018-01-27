@@ -9,10 +9,6 @@
     deployment_path: /home/centos/hello-world 
   tasks: 
 
-    - name: Show number of instances created
-      debug: msg="Created {{ instances_created }} instances"
-      when: instances_created is defined
-
     - name: Remove existing project directory 
       file:
         path: '{{ deployment_path }}'
